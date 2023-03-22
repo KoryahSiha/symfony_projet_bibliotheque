@@ -47,8 +47,9 @@ Utiliser des underscores si nom composé.
 ### Création du projet
 Dans le dossier où le projet sera créer, entrer la commande :
 
-<!-- Utiliser des tirets (pas des underscores) pour le nom du projet. Peut avoir le même nom que la BDD. -->
 `symfony new --webapp --version=lts nom-du-projet`
+
+Utiliser des tirets (pas des underscores) pour le nom du projet. Peut avoir le même nom que la BDD.
 
 ### Créer le fichier contenant le script bash `dofilo.sh` dans le dossier `bin/`
 #!/bin/bash
@@ -68,56 +69,63 @@ Vérifier la version de MariaDB :
 
 Créer un fichier `.env.local` puis configurer :
 
+```
 APP_ENV=dev
 DATABASE_URL="mysql://nom_base_de_donnees:mot-de-passe@127.0.0.1:3306/nom_base_de_donnees?serverVersion=mariadb-10.3.38&charset=utf8mb4"
+```
 
 ### Configuration des paramètres de langue
 Dans le fichier `config/packages/translation.yaml` :
 
+```
 default_locale: fr
+```
 
 ### Installation de packages supplémentaires
-<!-- Ce package fournit des outils pour générer des données de test -->
-doctrine/fixtures-bundle :
+`doctrine/fixtures-bundle` fournit des outils pour générer des données de test.
+
 `composer require orm-fixtures --dev`
 
-<!-- Faker est une bibliothèque qui permet de générer de fausses données aléatoires et réalistes pour la BDD -->
-fakerphp/faker :
+`fakerphp/faker` est une bibliothèque qui permet de générer de fausses données aléatoires et réalistes pour la BDD.
+
 `composer require fakerphp/faker --dev`
 
-<!-- Permet de convertir une chaîne de caractères en une version simplifiée et optimisée pour être utilisée dans une URL.
-Rend les URL plus lisibles et améliore le référencement. -->
-javiereguiluz/easyslugger :
+(https://fakerphp.github.io/)
+
+`javiereguiluz/easyslugger` permet de convertir une chaîne de caractères en une version simplifiée et optimisée pour être utilisée dans une URL.
+Il rend les URL plus lisibles et améliore le référencement.
+
 `composer require javiereguiluz/easyslugger --dev`
 
-<!-- Permet de paginer les résultats d'une requête en les séparant en plusieurs pages.
-Pratique pour les requêtes volumineuses. -->
-knplabs/knp-paginator-bundle :
+`knplabs/knp-paginator-bundle` permet de paginer les résultats d'une requête en les séparant en plusieurs pages.
+Pratique pour les requêtes volumineuses.
+
 `composer require knplabs/knp-paginator-bundle`
 
 ## Structure de BDD
 ### Création de l'entité `User`
 `php bin/console make:user`
-<!-- Les noms des entités prennent une majuscule (e.g. GentleKangaroo) -->
+
+Attention ! Les noms des entités prennent une majuscule (e.g. GentleKangaroo).
 
 ### Création des attributs
 `php bin/console make:entity`
-<!-- Les noms des propriétés ne prennent pas de majuscule -->
+
+Attention ! Les noms des propriétés ne prennent pas de majuscule.
+
 
 ### Création du fichier de migration (à faire à chaque nouvelle entrée dans la BDD)
-<!-- php bin/console doctrine:migrations:diff -->
-`php bin/console do:mi:di`
+`php bin/console doctrine:migrations:diff` ou `php bin/console do:mi:di`
 
 ### Exécution du fichier de migration (à faire à chaque création de fichier de migration)
-<!-- php bin/console doctrine:migrations:migrate -->
-`php bin/console do:mi:mi`
+`php bin/console doctrine:migrations:migrate` ou `php bin/console do:mi:mi`
 
 ### Vérification de l'accès à la BDD
-<!-- php bin/console doctrine:schema:validate -->
-`php bin/console do:sc:va`
+`php bin/console doctrine:schema:validate` ou `php bin/console do:sc:va`
 
 ### Création de fixtures de test
-<!-- Créé un fichier TestFixtures.php pour créer des données de test -->
+Créé un fichier TestFixtures.php pour créer des données de test.
+
 `php bin/console make:fixtures`
 
 Puis initialisation de doctrine et de faker dans le fichier de fixtures de test.
@@ -177,7 +185,8 @@ Dans cette même fonction, créer une boucle for en indiquant le nombre souhait�
 
 Ex : 
 
-`{
+```
+{
     # ...
 
     for ($i = 0; $i < 500; $i++) {
@@ -190,14 +199,16 @@ Ex :
     }
 
     $this->manager->flush();
-}`
+}
+```
 
 ### Récupérer le repository d'une classe
 Pour lier une entité à une autre, il faut récupérer son repository.
 
 Ex :
 
-`public function loadEmprunts(): void
+```
+public function loadEmprunts(): void
 {
     $repository = $this->manager->getRepository(Emprunteur::class);
     $Emprunteurs = $repository->findAll();
@@ -223,7 +234,8 @@ Ex :
     }
 
     $this->manager->flush();
-}`
+}
+```
 
 ### Charger les fixtures dans la BDD
 Pour charger les données de test :
