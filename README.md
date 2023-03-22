@@ -20,34 +20,35 @@ Dans VSCode, ouvrir un terminal et entrer les commandes ci-dessous.
 `symfony-cli` permet de créer un nouveau projet ou de lancer un serveur web de développement.
 Avec Debian ou Ubuntu, entrer les commandes suivantes séparémment :
 
-curl -1sLf 'https://dl.cloudsmith.io/public/symfony/stable/setup.deb.sh' | sudo -E bash
-sudo apt install symfony-cli
+`curl -1sLf 'https://dl.cloudsmith.io/public/symfony/stable/setup.deb.sh' | sudo -E bash`
+`sudo apt install symfony-cli`
 
 ### Activation du protocol HTTPS (à faire une seule fois par poste)
 Installer des certificats SSL auto-signés pour pouvoir utiliser le protocole HTTPS dans le navigateur.
 Avec Debian ou Ubuntu :
 - Installation du package `libnss3-tools` :
 
-sudo apt install libnss3-tools
+`sudo apt install libnss3-tools`
 
 - Installation de certificats auto-signés :
 
-symfony server:ca:install
+`symfony server:ca:install`
 
 ### Création de la BDD
 Utiliser les install scripts pour créer la base de données.
 Se rendre dans le dossier des install scripts :
-cd ~/install-scripts
+`cd ~/install-scripts`
 
 Et entrer ensuite la commande :
-<!-- Utiliser des underscores si nom composé. -->
-./mkdb.sh nom_base_de_donnees
+`./mkdb.sh nom_base_de_donnees`
+
+Utiliser des underscores si nom composé.
 
 ### Création du projet
 Dans le dossier où le projet sera créer, entrer la commande :
 
 <!-- Utiliser des tirets (pas des underscores) pour le nom du projet. Peut avoir le même nom que la BDD. -->
-symfony new --webapp --version=lts nom-du-projet
+`symfony new --webapp --version=lts nom-du-projet`
 
 ### Créer le fichier contenant le script bash `dofilo.sh` dans le dossier `bin/`
 #!/bin/bash
@@ -63,7 +64,7 @@ php bin/console doctrine:fixtures:load --no-interaction
 
 ### Configuration du paramètre d'environnement d'exécution et des paramètres d'accès à la BDD
 Vérifier la version de MariaDB :
-mariadb --version
+`mariadb --version`
 
 Créer un fichier `.env.local` puis configurer :
 
@@ -78,56 +79,56 @@ default_locale: fr
 ### Installation de packages supplémentaires
 <!-- Ce package fournit des outils pour générer des données de test -->
 doctrine/fixtures-bundle :
-composer require orm-fixtures --dev
+`composer require orm-fixtures --dev`
 
 <!-- Faker est une bibliothèque qui permet de générer de fausses données aléatoires et réalistes pour la BDD -->
 fakerphp/faker :
-composer require fakerphp/faker --dev
+`composer require fakerphp/faker --dev`
 
 <!-- Permet de convertir une chaîne de caractères en une version simplifiée et optimisée pour être utilisée dans une URL.
 Rend les URL plus lisibles et améliore le référencement. -->
 javiereguiluz/easyslugger :
-composer require javiereguiluz/easyslugger --dev
+`composer require javiereguiluz/easyslugger --dev`
 
 <!-- Permet de paginer les résultats d'une requête en les séparant en plusieurs pages.
 Pratique pour les requêtes volumineuses. -->
 knplabs/knp-paginator-bundle :
-composer require knplabs/knp-paginator-bundle
+`composer require knplabs/knp-paginator-bundle`
 
 ## Structure de BDD
 ### Création de l'entité `User`
-php bin/console make:user
+`php bin/console make:user`
 <!-- Les noms des entités prennent une majuscule (e.g. GentleKangaroo) -->
 
 ### Création des attributs
-php bin/console make:entity
+`php bin/console make:entity`
 <!-- Les noms des propriétés ne prennent pas de majuscule -->
 
 ### Création du fichier de migration (à faire à chaque nouvelle entrée dans la BDD)
 <!-- php bin/console doctrine:migrations:diff -->
-php bin/console do:mi:di
+`php bin/console do:mi:di`
 
 ### Exécution du fichier de migration (à faire à chaque création de fichier de migration)
 <!-- php bin/console doctrine:migrations:migrate -->
-php bin/console do:mi:mi
+`php bin/console do:mi:mi`
 
 ### Vérification de l'accès à la BDD
 <!-- php bin/console doctrine:schema:validate -->
-php bin/console do:sc:va
+`php bin/console do:sc:va`
 
 ### Création de fixtures de test
 <!-- Créé un fichier TestFixtures.php pour créer des données de test -->
-php bin/console make:fixtures
+`php bin/console make:fixtures`
 
 Puis initialisation de doctrine et de faker dans le fichier de fixtures de test.
 
 ### Création des données de test
 Créer les entités avec la commande :
-php bin/console make:entity
+`php bin/console make:entity`
 
 ### Création des relations entre les entités
 Indiquer le nom de l'entité possédante une fois la commande suivante validée :
-php bin/console make:entity
+`php bin/console make:entity`
 
 Puis y ajouter un champ portant le nom de l'entité inverse.
 
@@ -135,6 +136,8 @@ Puis y ajouter un champ portant le nom de l'entité inverse.
 Créer une fonction, puis entrer manuellement les données pour chaque table.
 
 Ex :
+
+```
 public function loadAuteurs(): void
 {
     $datas = [
@@ -167,12 +170,14 @@ public function loadAuteurs(): void
 
     $this->manager->flush();
 }
+```
 
 ### Création des données dynamiques
 Dans cette même fonction, créer une boucle for en indiquant le nombre souhaité de données totales générées aléatoirement pour chaque table.
 
 Ex : 
-{
+
+`{
     # ...
 
     for ($i = 0; $i < 500; $i++) {
@@ -185,13 +190,14 @@ Ex :
     }
 
     $this->manager->flush();
-}
+}`
 
 ### Récupérer le repository d'une classe
 Pour lier une entité à une autre, il faut récupérer son repository.
 
 Ex :
-public function loadEmprunts(): void
+
+`public function loadEmprunts(): void
 {
     $repository = $this->manager->getRepository(Emprunteur::class);
     $Emprunteurs = $repository->findAll();
@@ -217,17 +223,17 @@ public function loadEmprunts(): void
     }
 
     $this->manager->flush();
-}
+}`
 
 ### Charger les fixtures dans la BDD
 Pour charger les données de test :
 <!-- php bin/console doctrine:fixtures:load -->
-php bin/console do:fi:lo
-[yes]
+`php bin/console do:fi:lo
+[yes]`
 
-Pour effacer et re-injecter les données :
+`Pour effacer et re-injecter les données :
 php bin/console do:fi:lo
-[yes]
+[yes]`
 
 Pour purger la BDD et re-injecter les données en repartant de l'id 1 :
-bin/dofilo.sh
+`bin/dofilo.sh`
