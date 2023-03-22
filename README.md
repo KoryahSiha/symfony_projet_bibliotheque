@@ -250,7 +250,7 @@ class TestFixtures extends Fixture
 ```
 
 ### Création des données dynamiques
-Pour les données dynamiques, créer une boucle for en indiquant le nombre souhaité de données totales générées aléatoirement pour chaque table.
+Pour les données dynamiques, créer une boucle for en indiquant le nombre souhaité de données totales générées aléatoirement.
 
 Ex : 
 
