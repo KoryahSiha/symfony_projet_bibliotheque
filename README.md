@@ -255,8 +255,17 @@ Pour les données dynamiques, créer une boucle for en indiquant le nombre souha
 Ex : 
 
 ```
+public function loadAuteurs(): void
 {
-    # ...
+    $datas = [
+        # ...
+        ];
+
+    foreach ($datas as $data) {
+        # ...
+
+        $this->manager->persist($auteur);
+    }
 
     for ($i = 0; $i < 500; $i++) {
         $auteur = new Auteur();
