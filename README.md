@@ -276,13 +276,14 @@ public function loadEmprunts(): void
 
 ### Charger les fixtures dans la BDD
 Pour charger les données de test :
-<!-- php bin/console doctrine:fixtures:load -->
-`php bin/console do:fi:lo
-[yes]`
 
-`Pour effacer et re-injecter les données :
-php bin/console do:fi:lo
-[yes]`
+`php bin/console doctrine:fixtures:load` `[yes]` ou `php bin/console do:fi:lo` `[yes]`
+
+Pour effacer et re-injecter les données :
+
+`php bin/console do:fi:lo`
+`[yes]`
 
 Pour purger la BDD et re-injecter les données en repartant de l'id 1 :
+
 `bin/dofilo.sh`
