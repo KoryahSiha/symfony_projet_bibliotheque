@@ -126,7 +126,7 @@ Attention ! Les noms des propriétés ne prennent pas de majuscule.
 ### Vérification de l'accès à la BDD
 `php bin/console doctrine:schema:validate` ou `php bin/console do:sc:va`
 
-### Création de fixtures de test
+### Création du fichier des fixtures
 Créé un fichier TestFixtures.php pour créer des données de test.
 
 `php bin/console make:fixtures`
