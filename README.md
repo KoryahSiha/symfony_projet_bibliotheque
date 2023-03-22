@@ -178,7 +178,24 @@ Indiquer le nom de l'entité possédante une fois la commande suivante validée 
 Puis y ajouter un champ portant le nom de l'entité inverse.
 
 ### Création des données statiques
-Créer une fonction, puis entrer manuellement les données pour chaque table.
+Importer l'entité dans le fichier TestFixtures :
+
+`use App\Entity\Auteur;`
+
+Déclarer la propriété privée `manager`
+
+```
+class TestFixtures extends Fixture
+{
+    private $doctrine;
+    private $faker;
+    private $hasher;
+    private $manager;
+}
+```
+
+Déclarer une méthode qui sera utilisée pour récupérer les données statiques et/ou dynamiques.
+Pour les données statiques, entrer manuellement les données pour chaque table.
 
 Ex :
 
@@ -217,8 +234,23 @@ public function loadAuteurs(): void
 }
 ```
 
+Appeler la méthode créée précédemment dans la méthode qui chargera les fixtures.
+
+```
+class TestFixtures extends Fixture
+{
+
+    public function load(ObjectManager $manager): void
+    {
+        $this->manager = $manager;
+
+        $this->loadAuteurs();
+    }
+}
+```
+
 ### Création des données dynamiques
-Dans cette même fonction, créer une boucle for en indiquant le nombre souhaité de données totales générées aléatoirement pour chaque table.
+Pour les données dynamiques, créer une boucle for en indiquant le nombre souhaité de données totales générées aléatoirement pour chaque table.
 
 Ex : 
 
