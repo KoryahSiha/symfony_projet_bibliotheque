@@ -21,6 +21,7 @@ Dans VSCode, ouvrir un terminal et entrer les commandes ci-dessous.
 Avec Debian ou Ubuntu, entrer les commandes suivantes séparémment :
 
 `curl -1sLf 'https://dl.cloudsmith.io/public/symfony/stable/setup.deb.sh' | sudo -E bash`
+
 `sudo apt install symfony-cli`
 
 ### Activation du protocol HTTPS (à faire une seule fois par poste)
@@ -52,6 +53,7 @@ Dans le dossier où le projet sera créer, entrer la commande :
 Utiliser des tirets (pas des underscores) pour le nom du projet. Peut avoir le même nom que la BDD.
 
 ### Créer le fichier contenant le script bash `dofilo.sh` dans le dossier `bin/`
+```
 #!/bin/bash
 
 <!-- Suppression de la BDD (ATTENTION !) -->
@@ -62,6 +64,7 @@ php bin/console doctrine:database:create --no-interaction
 php bin/console doctrine:migrations:migrate --no-interaction
 <!-- Injection des données test dans la BDD -->
 php bin/console doctrine:fixtures:load --no-interaction
+```
 
 ### Configuration du paramètre d'environnement d'exécution et des paramètres d'accès à la BDD
 Vérifier la version de MariaDB :
@@ -129,6 +132,40 @@ Créé un fichier TestFixtures.php pour créer des données de test.
 `php bin/console make:fixtures`
 
 Puis initialisation de doctrine et de faker dans le fichier de fixtures de test.
+
+```
+    namespace App\DataFixtures;
+
+    use Doctrine\Bundle\FixturesBundle\Fixture;
++   use Doctrine\Persistence\ManagerRegistry;
+    use Doctrine\Persistence\ObjectManager;
++   use Faker\Factory as FakerFactory;
++   use Faker\Generator as FakerGenerator;
++   use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+
+    class TestFixtures extends Fixture
+    {
++       private $doctrine;
++       private $faker;
++       private $hasher;
++
++       public function __construct(ManagerRegistry $doctrine, UserPasswordHasherInterface $hasher)
++       {
++           $this->doctrine = $doctrine;
++           $this->faker = FakerFactory::create('fr_FR');
++           $this->hasher = $hasher;
++
++       }
++
+        public function load(ObjectManager $manager): void
+        {
+-           // $product = new Product();
+-           // $manager->persist($product);
+-
+            $manager->flush();
+        }
+    }
+```
 
 ### Création des données de test
 Créer les entités avec la commande :
