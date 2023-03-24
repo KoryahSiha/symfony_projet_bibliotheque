@@ -87,7 +87,7 @@ class TestFixtures extends Fixture
             $user = new User();
 
             $user->setEmail($this->faker->email());
-            $user->setRoles(['ROLE-USER']);
+            $user->setRoles(['ROLE_USER']);
             $password = $this->hasher->hashPassword($user, '123');
             $user->setPassword($password);
             $user->setEnabled($this->faker->boolean());
