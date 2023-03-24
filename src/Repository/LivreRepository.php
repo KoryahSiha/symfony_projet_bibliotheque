@@ -51,18 +51,6 @@ class LivreRepository extends ServiceEntityRepository
         ;
     }
 
-        /**
-    * @return Livre[] Returns an array of Livre objects
-    */
-    public function findByLivreTitre(): array
-    {
-        return $this->createQueryBuilder('l')
-            ->orderBy('l.titre', 'ASC')
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-
     /**
     * @return Livre[] Returns an array of Livre objects
     */
