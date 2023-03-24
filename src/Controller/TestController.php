@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\UserRepository;
+use App\Repository\LivreRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,4 +26,20 @@ class TestController extends AbstractController
 
         exit();
     }
+
+    #[Route('/livre', name: 'app_test')]
+    public function livre(LivreRepository $repository): Response
+    {
+        $livres = $repository->findAllLivres();
+        dump($livres);
+
+        $livre1 = $repository->find(1);
+        dump($livre1);
+
+        $livres = $repository->findByKeyword('lorem');
+        dump($livres);
+
+        exit();
+    }
+
 }
