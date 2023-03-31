@@ -4,16 +4,12 @@ Cet exercice a pour but de maîtriser la création d'une BDD qui sera utilisée 
 
 ## Prérequis
 
-- Visual Studio Code
-- Terminal bash
-- Git
 - MariaDB
 - PHPMyAdmin
-- PHP 8.x
 - Symfony
 - Composer
 
-## Procédure
+## Procédure de la création de la BDD
 Dans VSCode, ouvrir un terminal et entrer les commandes ci-dessous.
 
 ### Installation de `symfony-cli` (à faire une seule fois par poste)
@@ -56,13 +52,13 @@ Utiliser des tirets (pas des underscores) pour le nom du projet. Peut avoir le m
 ```
 #!/bin/bash
 
-<!-- Suppression de la BDD (ATTENTION !) -->
+#Suppression de la BDD (ATTENTION !)
 php bin/console doctrine:database:drop --force --if-exists
-<!-- Création de la BDD -->
+#Création de la BDD
 php bin/console doctrine:database:create --no-interaction
-<!-- Exécution du fichier de migration -->
+#Exécution du fichier de migration
 php bin/console doctrine:migrations:migrate --no-interaction
-<!-- Injection des données test dans la BDD -->
+#Injection des données test dans la BDD
 php bin/console doctrine:fixtures:load --no-interaction
 ```
 
@@ -75,13 +71,6 @@ Créer un fichier `.env.local` puis configurer :
 ```
 APP_ENV=dev
 DATABASE_URL="mysql://nom_base_de_donnees:mot-de-passe@127.0.0.1:3306/nom_base_de_donnees?serverVersion=mariadb-10.3.38&charset=utf8mb4"
-```
-
-### Configuration des paramètres de langue
-Dans le fichier `config/packages/translation.yaml` :
-
-```
-default_locale: fr
 ```
 
 ### Installation de packages supplémentaires
@@ -170,6 +159,8 @@ Puis initialisation de doctrine et de faker dans le fichier de fixtures de test.
 ### Création des données de test
 Créer les entités avec la commande :
 `php bin/console make:entity`
+
+ATTENTION, la classe User doit être créée avec `php bin.console make:user`
 
 ### Création des relations entre les entités
 Indiquer le nom de l'entité possédante une fois la commande suivante validée :
@@ -328,3 +319,41 @@ Pour effacer et re-injecter les données :
 Pour purger la BDD et re-injecter les données en repartant de l'id 1 :
 
 `bin/dofilo.sh`
+
+
+## Procédure des composants d'accès aux données
+
+## Prérequis
+
+- MariaDB
+- PHPMyAdmin
+- composer
+- La BDD du projet bibliothèque
+
+### Création du contrôleur
+
+Créer un contrôleur `TestController` qui contiendra les requêtes.
+`symfony console make:controller TestController`
+
+### Lancement du serveur
+`symfony serve`
+
+### Utilisateurs, requêtes d'accès
+URL à ouvrir pour tester les requêtes d'accès aux données des utilisateurs :
+
+`https://localhost:8000/test/user`
+
+### Livres, requêtes d'accès'
+URL à ouvrir pour tester les requêtes d'accès aux données des livres :
+
+`https://localhost:8000/test/livre`
+
+### Emprunteurs, requêtes d'accès
+URL à ouvrir pour tester les requêtes d'accès aux données des emprunteurs:
+
+`https://localhost:8000/test/emprunteur`
+
+### Emprunts, requêtes d'accès
+URL à ouvrir pour tester les requêtes d'accès aux données des emprunts:
+
+`https://localhost:8000/test/emprunt`
