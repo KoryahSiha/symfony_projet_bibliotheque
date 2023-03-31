@@ -186,10 +186,6 @@ class TestFixtures extends Fixture
             $livre->setCodeIsbn($data['code_isbn']);
             $livre->setAuteur($data['auteur']);
 
-            // foreach ($data['auteurs'] as $auteur) {
-            //     $livre->addAuteur($auteur);
-            // }
-
             $this->manager->persist($livre);
         }
 

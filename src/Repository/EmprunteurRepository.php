@@ -39,6 +39,48 @@ class EmprunteurRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+    * @return Emprunteur[] Returns an array of Emprunteur objects
+     */
+    public function findAllEmprunteurs(): array
+    {
+        return $this->createQueryBuilder('e')
+            ->orderBy('e.nom', 'ASC')
+            ->addOrderBy('e.prenom', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /**
+     * @return Emprunteur[] Returns an array of Emprunteur objects
+    */
+    public function findEmprunteurByUserId(int $userId): array
+    {
+        return $this->createQueryBuilder('e')
+            ->join('e.user', 'u')
+            ->andWhere('e.id = :userId')
+            ->setParameter('userId', $userId)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /**
+    * @return Emprunteur[] Returns an array of Emprunteur objects
+    */
+    public function findByKeyword(string $keyword): array
+    {
+        return $this->createQueryBuilder('e')
+            ->andWhere('e.nom LIKE :keyword OR e.prenom LIKE :keyword')
+            ->setParameter('keyword', "%$keyword%")
+            ->orderBy('e.nom', 'ASC')
+            ->addOrderBy('e.prenom', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
 //    /**
 //     * @return Emprunteur[] Returns an array of Emprunteur objects
 //     */

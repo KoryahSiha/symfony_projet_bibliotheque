@@ -39,6 +39,62 @@ class EmpruntRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+    * @return Emprunt[] Returns an array of Emprunt objects
+     */
+    public function findAllOrderByEmprunt(): array
+    {
+        return $this->createQueryBuilder('e')
+            ->orderBy('e.date_emprunt', 'DESC')
+            ->setMaxResults(3)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /**
+    * @return Emprunt[] Returns an array of Emprunt objects
+     */
+    public function findEmpruntByEmprunteur(int $emprunteurId): array
+    {
+        return $this->createQueryBuilder('e')
+            ->join('e.emprunteur', 'emprunteur')
+            ->andWhere('emprunteur.id = :emprunteurId')
+            ->setParameter('emprunteurId', $emprunteurId)
+            ->orderBy('e.date_emprunt', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /**
+    * @return Emprunt[] Returns an array of Emprunt objects
+     */
+    public function findEmpruntByLivre($livreId): array
+    {
+        return $this->createQueryBuilder('e')
+            ->join('e.livre', 'livre')
+            ->andWhere('livre.id = :livreId')
+            ->setParameter('livreId', $livreId)
+            ->orderBy('e.date_emprunt', 'DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /**
+    * @return Emprunt[] Returns an array of Emprunt objects
+     */
+    public function findAllByDateEmprunt(): array
+    {
+        return $this->createQueryBuilder('e')
+            ->andWhere('e.date_retour IS NULL')
+            ->orderBy('e.date_emprunt', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
 //    /**
 //     * @return Emprunt[] Returns an array of Emprunt objects
 //     */
