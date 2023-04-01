@@ -2,9 +2,12 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title %}Projet Bibliothèque{% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
+        <link rel="stylesheet" href="css/app.css">
+
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
@@ -14,6 +17,27 @@
         {% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
+        {% block body %}
+            <nav class="nav">
+                <div class="nav__container">
+                    <div><a class="nav__lien" href="/">Accueil</div>           
+                    <div><a class="nav__lien" href="/login">Se connecter</a></div>
+                    {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_USER') %}
+                    <div><a class="nav__lien" href="/logout">Se déconnecter</a></div>
+                    {% endif %}
+                </div>
+                {% if is_granted('ROLE_ADMIN') %}
+                <div>
+                    <ul class="nav__liens">
+                        <li><a class="nav__lien" href="/user">Utilisateurs</a></li>
+                        <li><a class="nav__lien" href="/livre">Livres</a></li>
+                        <li><a class="nav__lien" href="/auteur">Auteurs</a></li>
+                        <li><a class="nav__lien" href="/emprunteur">Emprunteurs</a></li>
+                        <li><a class="nav__lien" href="/emprunt">Emprunts</a></li>
+                    </ul>
+                </div>
+                {% endif %}
+            </nav>
+        {% endblock %}
     </body>
 </html>

@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Emprunteur index{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/emprunteur.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+{% endblock %}
+
+{% block body %}
+    {{ parent() }}
+    <h1>Emprunteur index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Prenom</th>
+                <th>Email</th>
+                <th>Tel</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for emprunteur in emprunteurs %}
+            <tr>
+                <td>{{ emprunteur.id }}</td>
+                <td>{{ emprunteur.nom }}</td>
+                <td>{{ emprunteur.prenom }}</td>
+                <td>{{ emprunteur.user.email }}</td>
+                <td>{{ emprunteur.tel }}</td>
+                <td>
+                    <a href="{{ path('app_emprunteur_show', {'id': emprunteur.id}) }}">show</a>
+                    {% if is_granted('ROLE_ADMIN') or app.user.emprunteur.id == emprunteur.id %}
+                    <a href="{{ path('app_emprunteur_edit', {'id': emprunteur.id}) }}">edit</a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

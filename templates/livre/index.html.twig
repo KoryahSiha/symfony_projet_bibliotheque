@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Livre index{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/livre.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+{% endblock %}
+
+{% block body %}
+    {{ parent() }}
+    <h1>Livre index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Titre</th>
+                <th>Auteur</th>
+                <th>Annee_edition</th>
+                <th>Nombre_pages</th>
+                <th>Code_isbn</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for livre in livres %}
+            <tr>
+                <td>{{ livre.id }}</td>
+                <td>{{ livre.titre }}</td>
+                <td>{{ livre.auteur.nom }} {{ livre.auteur.prenom }}</td>
+                <td>{{ livre.anneeEdition }}</td>
+                <td>{{ livre.nombrePages }}</td>
+                <td>{{ livre.codeIsbn }}</td>
+                <td>
+                    <a href="{{ path('app_livre_show', {'id': livre.id}) }}">show</a>
+                    {% if is_granted('ROLE_ADMIN') %}
+                    <a href="{{ path('app_livre_edit', {'id': livre.id}) }}">edit</a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

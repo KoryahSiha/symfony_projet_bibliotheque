@@ -357,3 +357,29 @@ URL à ouvrir pour tester les requêtes d'accès aux données des emprunteurs:
 URL à ouvrir pour tester les requêtes d'accès aux données des emprunts:
 
 `https://localhost:8000/test/emprunt`
+
+
+## Procédure de la création du back-end de l'application
+
+### Prérequis
+
+- MariaDB
+- PHPMyAdmin
+- la BDD du projet bibliothèque
+- les requêtes de données faites avec un composant d'accès aux données
+
+Si utilisation de Symfony :
+- PHP 8.x
+- composer
+
+### Lancement du serveur
+`symfony serve`
+
+### URLs pour tester l'application
+Afficher la page d'accueil : `https://localhost:8000/`
+Afficher les users : `https://localhost:8000/user`
+Afficher les livres : `https://localhost:8000/livre`
+Afficher les emprunts : `https://localhost:8000/emprunt`
+Afficher les emprunteurs : `https://localhost:8000/emprunteur`
+Afficher les auteurs : `https://localhost:8000/auteur`
+Se connecter : `https://localhost:8000/login`

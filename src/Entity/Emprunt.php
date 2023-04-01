@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\EmpruntRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: EmpruntRepository::class)]
 class Emprunt
@@ -14,9 +15,14 @@ class Emprunt
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\Date]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $date_emprunt = null;
 
+    #[Assert\Date]
+    #[Assert\GreaterThan(
+        propertyPath: 'startDate'
+    )]
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $date_retour = null;
 

@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Emprunteur{% endblock %}
+
+{% block body %}
+    <h1>Edit Emprunteur</h1>
+
+    {{ include('emprunteur/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_emprunteur_index') }}">back to list</a>
+{% endblock %}

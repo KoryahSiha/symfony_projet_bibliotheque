@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Page d'accueil - {{ parent() }}{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+{% endblock %}
+
+{% block body %}
+    {{ parent() }}
+    <h1>Catalogue des livres</h1>
+    <ul>
+        {% for livre in livres %}
+            <li><a href="{{ path('app_livre_show', {'id': livre.id}) }}">{{ livre.titre }}</a></li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}

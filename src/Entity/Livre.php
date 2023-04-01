@@ -6,6 +6,7 @@ use App\Repository\LivreRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: LivreRepository::class)]
 class Livre
@@ -15,18 +16,25 @@ class Livre
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\NotBlank]
     #[ORM\Column(length: 190)]
     private ?string $titre = null;
 
     #[ORM\Column(nullable: true)]
     private ?int $annee_edition = null;
 
+    #[Assert\Positive]
     #[ORM\Column]
     private ?int $nombre_pages = null;
 
+    #[Assert\Isbn(
+        type: Assert\Isbn::ISBN_13,
+        message: 'Ce code ISBN n\'est pas valide.',
+    )]
     #[ORM\Column(length: 190, nullable: true)]
     private ?string $code_isbn = null;
 
+    #[Assert\NotBlank]
     #[ORM\ManyToOne(inversedBy: 'livres')]
     private ?Auteur $auteur = null;
 
