@@ -43,6 +43,9 @@ class TestFixtures extends Fixture
 
     public function loadUsers(): void
     {
+        // création des données statiques
+        // $datas = [] est un tableau de données contenant des informations pour créer des utilisateurs.
+        // chaque élément du tableau est un tableau associatif avec les clés 'email', 'roles', 'password' et 'enabled'
         $datas = [
             [
                 'email' => 'admin@example.com',
@@ -70,20 +73,32 @@ class TestFixtures extends Fixture
             ]
         ];
 
+        // boucle qui parcourt le tableau de données $datas
+        // pour chaque élément du tableau, il exécute le code entre les accolades
         foreach ($datas as $data) {
+
+            // création d'un nouvel objet
             $user = new User();
 
+            // configuration de l'email de l'utilisateur avec la valeur stockée dans le tableau $datas
             $user->setEmail($data['email']);
+            // configuration du rôle de l'utilisateur avec la valeur stockée dans le tableau $datas
             $user->setRoles($data['roles']);
+            // utilisation d'une fonction de hachage pour convertir le mot de passe stocké dans le tableau $datas en une valeur sécurisée pour stockage en BDD
             $password = $this->hasher->hashPassword($user, $data['password']);
+            // configuration du mot de passe de l'utilisateur avec la valeur hachée
             $user->setPassword($password);
+            // configuration du compte de l'utilisateur avec la valeur stockée dans le tableau $datas
             $user->setEnabled($data['enabled']);
 
-
+            // demande d'enregistrement de l'objet (ajoute l'utilisateur créé dans l'EntityManager de Doctrine, qui se chargera de les enregistrer en base de données plus tard)
             $this->manager->persist($user);
         }
 
+        // création des données dynamiques
+        // Création de 100 users
         for ($i = 0; $i < 100; $i++) {
+            // cré
             $user = new User();
 
             $user->setEmail($this->faker->email());
@@ -95,6 +110,7 @@ class TestFixtures extends Fixture
             $this->manager->persist($user);
         }
 
+        // exécution des requêtes SQL pour insérer les nouveaux enregistrements dans la BDD
         $this->manager->flush();
     }
 
@@ -144,7 +160,7 @@ class TestFixtures extends Fixture
     {
 
         $repository = $this->manager->getRepository(Auteur::class);
-        $Auteurs = $repository->findAll();
+        $auteurs = $repository->findAll();
 
         $datas = [
             [
@@ -152,28 +168,28 @@ class TestFixtures extends Fixture
                 'annee_edition' => 2010,
                 'nombre_pages' => 100,
                 'code_isbn' => 9785786930024,
-                'auteur' => $Auteurs[0]
+                'auteur' => $auteurs[0]
             ],
             [
                 'titre' => 'Consectetur adipiscing elit',
                 'annee_edition' => 2011,
                 'nombre_pages' => 150,
                 'code_isbn' => 9783817260935,
-                'auteur' => $Auteurs[1]
+                'auteur' => $auteurs[1]
             ],
             [
                 'titre' => 'Mihi quidem Antiochum',
                 'annee_edition' => 2012,
                 'nombre_pages' => 200,
                 'code_isbn' => 9782020493727,
-                'auteur' => $Auteurs[2]
+                'auteur' => $auteurs[2]
             ],
             [
                 'titre' => 'Quem audis satis belle',
                 'annee_edition' => 2013,
                 'nombre_pages' => 250,
                 'code_isbn' => 9794059561353,
-                'auteur' => $Auteurs[3]
+                'auteur' => $auteurs[3]
             ],
         ];
 
@@ -196,7 +212,7 @@ class TestFixtures extends Fixture
             $livre->setAnneeEdition($this->faker->year());
             $livre->setNombrePages($this->faker->numberBetween(50, 1000));
             $livre->setCodeIsbn($this->faker->numerify('97###########'));
-            $livre->setAuteur($this->faker->randomElement($Auteurs));
+            $livre->setAuteur($this->faker->randomElement($auteurs));
 
             $this->manager->persist($livre);
         }
@@ -207,26 +223,26 @@ class TestFixtures extends Fixture
     public function loadEmprunteurs(): void
     {
         $repository = $this->manager->getRepository(User::class);
-        $Users = $repository->findAll();
+        $users = $repository->findAll();
 
         $datas = [
             [
                 'nom' => 'foo',
                 'prenom' => 'foo',
                 'tel' => '123456789',
-                'user' => $Users[1]
+                'user' => $users[1]
             ],
             [
                 'nom' => 'bar',
                 'prenom' => 'bar',
                 'tel' => '123456789',
-                'user' => $Users[2]
+                'user' => $users[2]
             ],
             [
                 'nom' => 'baz',
                 'prenom' => 'baz',
                 'tel' => '123456789',
-                'user' => $Users[3]
+                'user' => $users[3]
             ],
         ];
 
@@ -247,29 +263,29 @@ class TestFixtures extends Fixture
     public function loadEmprunts(): void
     {
         $repository = $this->manager->getRepository(Emprunteur::class);
-        $Emprunteurs = $repository->findAll();
+        $emprunteurs = $repository->findAll();
 
         $repository = $this->manager->getRepository(Livre::class);
-        $Livres = $repository->findAll();
+        $livres = $repository->findAll();
 
         $datas = [
             [
                 'date_emprunt' => DateTime::createFromFormat('Y-m-d H:i:s', '2020-02-01 10:00:00'),
                 'date_retour' => DateTime::createFromFormat('Y-m-d H:i:s', '2020-03-01 10:00:00'),
-                'emprunteur' => $Emprunteurs[0],
-                'livre' => $Livres[0]
+                'emprunteur' => $emprunteurs[0],
+                'livre' => $livres[0]
             ],
             [
                 'date_emprunt' => DateTime::createFromFormat('Y-m-d H:i:s', '2020-03-01 10:00:00'),
                 'date_retour' => DateTime::createFromFormat('Y-m-d H:i:s', '2020-04-01 10:00:00'),
-                'emprunteur' => $Emprunteurs[1],
-                'livre' => $Livres[1]
+                'emprunteur' => $emprunteurs[1],
+                'livre' => $livres[1]
             ],
             [
                 'date_emprunt' => DateTime::createFromFormat('Y-m-d H:i:s', '2020-04-01 10:00:00'),
                 'date_retour' => null,
-                'emprunteur' => $Emprunteurs[2],
-                'livre' => $Livres[2]
+                'emprunteur' => $emprunteurs[2],
+                'livre' => $livres[2]
             ],
         ];
 
