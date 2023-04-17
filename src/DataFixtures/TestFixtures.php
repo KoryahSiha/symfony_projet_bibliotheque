@@ -9,18 +9,24 @@ use App\Entity\Livre;
 use App\Entity\User;
 use \DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory as FakerFactory;
 use Faker\Generator as FakerGenerator;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-class TestFixtures extends Fixture
+class TestFixtures extends Fixture implements FixtureGroupInterface
 {
     private $doctrine;
     private $faker;
     private $hasher;
     private $manager;
+
+    public static function getGroups(): array
+    {
+        return ['group2'];
+    }
 
     public function __construct(ManagerRegistry $doctrine, UserPasswordHasherInterface $hasher)
     {
@@ -47,12 +53,6 @@ class TestFixtures extends Fixture
         // $datas = [] est un tableau de données contenant des informations pour créer des utilisateurs.
         // chaque élément du tableau est un tableau associatif avec les clés 'email', 'roles', 'password' et 'enabled'
         $datas = [
-            [
-                'email' => 'admin@example.com',
-                'roles' => ['ROLE_ADMIN'],
-                'password' => '123',
-                'enabled' => true
-            ],
             [
                 'email' => 'foo.foo@example.com',
                 'roles' => ['ROLE_USER'],
