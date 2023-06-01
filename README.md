@@ -1,6 +1,6 @@
 # Projet Bibliothèque en Symfony avec framework
 
-Cet exercice a pour but de maîtriser la création d'une BDD qui sera utilisée dans une application web dynamique.
+Création d'une BDD qui sera ensuite utilisée dans une application web dynamique.
 
 ## Prérequis
 
