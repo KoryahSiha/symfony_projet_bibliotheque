@@ -23,7 +23,7 @@ class UserController extends AbstractController
     }
 
     #[Route('/new', name: 'app_user_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, UserRepository $userRepository): Response
+    public function new(Request $request, UserRepository $userRepository, UserPasswordHasherInterface $hasher): Response
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
@@ -52,7 +52,7 @@ class UserController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_user_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, User $user, UserRepository $userRepository): Response
+    public function edit(Request $request, User $user, UserRepository $userRepository, UserPasswordHasherInterface $hasher): Response
     {
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
@@ -62,6 +62,7 @@ class UserController extends AbstractController
             $roles = $user->getRoles();
             $roles = array_values($roles);
             $user->setRoles($roles);
+            // hache le mot de passe
             $password = $hasher->hashPassword($user, $user->getPassword());
             $user->setPassword($password);
             $userRepository->save($user, true);
