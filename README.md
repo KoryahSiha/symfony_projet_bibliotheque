@@ -1,6 +1,6 @@
 # Projet Bibliothèque en Symfony avec framework
 
-Création d'une BDD qui sera ensuite utilisée dans une application web dynamique.
+Création d'une BDD, utilisation de composants d'accès aux données, et création de la partie back-end d'une application web dynamique.
 
 ## Prérequis
 
